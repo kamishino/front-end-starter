@@ -89,7 +89,7 @@ function styleBuild() {
       // .pipe(sourcemaps.init())
       .pipe(sass().on("error", sass.logError))
       .pipe(postcss(styleProcessors))
-      // .pipe(sourcemaps.write("./"))
+      // .pipe(sourcemaps.write("."))
       .pipe(dest(paths.styles.destDir))
       .pipe(
         rename({
@@ -105,7 +105,7 @@ function styleBuild() {
           }),
         ])
       )
-      // .pipe(sourcemaps.write("./"))
+      // .pipe(sourcemaps.write("."))
       .pipe(dest(paths.styles.destDir))
   );
 }
@@ -144,23 +144,25 @@ function jsBuild(done) {
         done();
         return;
       }
-      return src(files)
-        .pipe(plumber())
-        .pipe(concat(`${config.name}.build.js`))
-        .pipe(
-          babel({
-            presets: [
-              [
-                "@babel/env",
-                {
-                  modules: false,
-                },
+      return (
+        src(files)
+          .pipe(plumber())
+          .pipe(concat(`${config.name}.build.js`))
+          .pipe(
+            babel({
+              presets: [
+                [
+                  "@babel/env",
+                  {
+                    modules: false,
+                  },
+                ],
               ],
-            ],
-          })
-        )
-        .pipe(uglify())
-        .pipe(dest(paths.scripts.tmpDir));
+            })
+          )
+          // .pipe(uglify())
+          .pipe(dest(paths.scripts.tmpDir))
+      );
     };
   });
 
@@ -178,7 +180,14 @@ function jsConcat(done) {
         src(files, { allowEmpty: true })
           .pipe(plumber())
           // Append hash to the bundle filename.
-          //   .pipe(concat(`${config.name}-${hash}.js`))
+          .pipe(concat(`${config.name}.js`))
+          .pipe(dest(paths.scripts.destDir))
+          .pipe(uglify())
+          .pipe(
+            rename({
+              suffix: ".min",
+            })
+          )
           .pipe(dest(paths.scripts.destDir))
       );
     };
@@ -218,6 +227,6 @@ function watchSource() {
 }
 
 exports.styleBuild = series(styleBuild);
-exports.jsBuild = series(jsDeps, jsBuild, jsConcat, jsClean);
-exports.default = series(exports.jsBuild, styleBuild, copyHTML);
+exports.jsBuild = series(jsDeps, jsBuild, jsConcat);
+exports.default = series(exports.jsBuild, jsClean, styleBuild, copyHTML);
 exports.watch = series(exports.default, watchSource);

@@ -1,7 +1,7 @@
 module.exports = [
   {
     name: "main",
-    deps: ["~lodash/lodash.min"],
+    deps: ["~lodash/lodash"],
     files: ["/main"],
   },
 ];
