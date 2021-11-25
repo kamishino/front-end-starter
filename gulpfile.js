@@ -19,7 +19,6 @@ const uglify = require("gulp-uglify");
 
 // BrowserSync
 const browserSync = require("browser-sync").create();
-const reload = browserSync.reload;
 
 // Paths
 const paths = {
@@ -214,19 +213,26 @@ function jsClean(done) {
   })();
 }
 
-function watchSource() {
+function browserSyncReload(done) {
+  browserSync.reload();
+  done();
+}
+
+function browserSyncServe(done) {
   browserSync.init({
     server: {
       baseDir: paths.reload,
     },
   });
+}
 
-  watch(paths.scripts.srcDir, series(jsBuild, reload));
-  watch(paths.styles.srcDir, series(styleBuild, reload));
-  watch(paths.html.srcDir, series(copyHTML, reload));
+function watchSource() {
+  watch(paths.scripts.srcDir, series(exports.jsBuild, browserSyncReload));
+  watch(paths.styles.srcDir, series(styleBuild, browserSyncReload));
+  watch(paths.html.srcDir, series(copyHTML, browserSyncReload));
 }
 
 exports.styleBuild = series(styleBuild);
 exports.jsBuild = series(jsDeps, jsBuild, jsConcat);
 exports.default = series(exports.jsBuild, jsClean, styleBuild, copyHTML);
-exports.watch = series(exports.default, watchSource);
+exports.watch = series(exports.default, browserSyncServe, watchSource);
