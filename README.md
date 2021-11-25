@@ -8,7 +8,9 @@ This is a source code structure for start a Front-End project.
 
 ## Basic NPM packages you can install
 
-`npm install --save-dev @babel/core @babel/preset-env autoprefixer browser-sync css-declaration-sorter cssnano del gulp gulp-babel gulp-concat gulp-plumber gulp-postcss gulp-rename gulp-sass gulp-sourcemaps gulp-uglify jquery lodash postcss sass`
+```
+npm install --save-dev @babel/core @babel/preset-env autoprefixer browser-sync css-declaration-sorter cssnano del gulp gulp-babel gulp-concat gulp-plumber gulp-postcss gulp-rename gulp-sass gulp-sourcemaps gulp-uglify jquery lodash postcss sass
+```
 
 ## Contributing
 
