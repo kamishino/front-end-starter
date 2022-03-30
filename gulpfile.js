@@ -2,7 +2,12 @@
 const { gulp, parallel, series, src, dest, watch } = require("gulp");
 const del = require("del");
 const plumber = require("gulp-plumber");
+const filter = require("gulp-filter");
 const rename = require("gulp-rename");
+const newer = require("gulp-newer");
+
+// Image
+const imagemin = require("gulp-imagemin");
 
 // Styles
 const sass = require("gulp-sass")(require("sass"));
@@ -11,6 +16,8 @@ const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
 const minify = require("cssnano");
 const cssorder = require("css-declaration-sorter");
+const pxtorem = require("postcss-pxtorem");
+const postcssPresetEnv = require("postcss-preset-env");
 
 // Scripts
 const babel = require("gulp-babel");
@@ -28,6 +35,10 @@ const paths = {
     srcDir: "./src/**/*.html",
     destDir: "./dist/",
   },
+  images: {
+    srcDir: "./src/images/**/*.{png,jpg,jpeg,gif,ico,svg}",
+    destDir: "./dist/images/",
+  },
   styles: {
     srcDir: "./src/scss/**/*.{scss,sass}",
     destDir: "./dist/css/",
@@ -40,7 +51,7 @@ const paths = {
   reload: "./dist/",
 };
 
-const jsConfig = require("./src/config");
+const jsConfig = require("./src/js/config");
 
 // Template for banner to add to file headers
 const banner = {
@@ -65,48 +76,76 @@ const banner = {
     " */\n",
 };
 
-// The hash is the timestamp when the task runs.
-const hash = new Date().getTime();
-
-// PostCSS Processors
-const styleProcessors = [
-  autoprefixer({
-    cascade: true,
-    remove: true,
-    browsersList: ["> 1%", "last 2 versions", "IE 10"],
-  }),
-  cssorder({ order: "smacss" }),
-];
-
 function copyHTML() {
   return src(paths.html.srcDir).pipe(dest(paths.html.destDir));
 }
 
+function copyImages() {
+  return src(paths.images.srcDir)
+    .pipe(plumber())
+    .pipe(newer(paths.images.destDir))
+    .pipe(imagemin())
+    .pipe(dest(paths.images.destDir));
+}
+
+// PostCSS Processors
+const styleProcessors = [
+  cssorder({ order: "smacss" }),
+  pxtorem({
+    rootValue: 16,
+    unitPrecision: 5,
+    propList: [
+      "padding",
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+      "margin",
+      "margin-top",
+      "margin-right",
+      "margin-bottom",
+      "margin-left",
+      "font",
+      "font-size",
+      "line-height",
+      "letter-spacing",
+    ],
+    selectorBlackList: [],
+    replace: true,
+    mediaQuery: false,
+    minPixelValue: 0,
+    exclude: "/node_modules/i",
+  }),
+  autoprefixer({
+    browsersList: ["> 1%", "last 2 versions", "IE 11"],
+  }),
+  postcssPresetEnv(),
+];
+
 function styleBuild() {
-  return (
-    src(paths.styles.srcDir)
-      // .pipe(sourcemaps.init())
-      .pipe(sass().on("error", sass.logError))
-      .pipe(postcss(styleProcessors))
-      // .pipe(sourcemaps.write("."))
-      .pipe(dest(paths.styles.destDir))
-      .pipe(
-        rename({
-          suffix: ".min",
-        })
-      )
-      .pipe(
-        postcss([
-          minify({
-            discardComments: {
-              removeAll: true,
-            },
-          }),
-        ])
-      )
-      // .pipe(sourcemaps.write("."))
-      .pipe(dest(paths.styles.destDir))
-  );
+  return src(paths.styles.srcDir)
+    .pipe(sourcemaps.init())
+    .pipe(sass().on("error", sass.logError))
+    .pipe(postcss(styleProcessors))
+    .pipe(sourcemaps.write("./"))
+    .pipe(dest(paths.styles.destDir))
+    .pipe(filter("**/*.css"))
+    .pipe(
+      rename({
+        suffix: ".min",
+      })
+    )
+    .pipe(
+      postcss([
+        minify({
+          discardComments: {
+            removeAll: true,
+          },
+        }),
+      ])
+    )
+    .pipe(sourcemaps.write("./"))
+    .pipe(dest(paths.styles.destDir));
 }
 
 function jsDeps(done) {
@@ -143,25 +182,22 @@ function jsBuild(done) {
         done();
         return;
       }
-      return (
-        src(files)
-          .pipe(plumber())
-          .pipe(concat(`${config.name}.build.js`))
-          .pipe(
-            babel({
-              presets: [
-                [
-                  "@babel/env",
-                  {
-                    modules: false,
-                  },
-                ],
+      return src(files)
+        .pipe(plumber())
+        .pipe(concat(`${config.name}.build.js`))
+        .pipe(
+          babel({
+            presets: [
+              [
+                "@babel/env",
+                {
+                  modules: "auto",
+                },
               ],
-            })
-          )
-          // .pipe(uglify())
-          .pipe(dest(paths.scripts.tmpDir))
-      );
+            ],
+          })
+        )
+        .pipe(dest(paths.scripts.tmpDir));
     };
   });
 
@@ -173,22 +209,27 @@ function jsBuild(done) {
 
 function jsConcat(done) {
   const tasks = jsConfig.map((config) => {
-    return (done) => {
-      const files = [`${paths.scripts.tmpDir}/${config.name}.deps.js`, `${paths.scripts.tmpDir}/${config.name}.build.js`];
-      return (
-        src(files, { allowEmpty: true })
-          .pipe(plumber())
-          // Append hash to the bundle filename.
-          .pipe(concat(`${config.name}.js`))
-          .pipe(dest(paths.scripts.destDir))
-          .pipe(uglify())
-          .pipe(
-            rename({
-              suffix: ".min",
-            })
-          )
-          .pipe(dest(paths.scripts.destDir))
-      );
+    return () => {
+      const files = [
+        `${paths.scripts.tmpDir}/${config.name}.deps.js`,
+        `${paths.scripts.tmpDir}/${config.name}.build.js`,
+      ];
+
+      return src(files, { allowEmpty: true })
+        .pipe(plumber())
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(concat(`${config.name}.js`))
+        .pipe(sourcemaps.write("./"))
+        .pipe(dest(paths.scripts.destDir))
+        .pipe(filter("**/*.js"))
+        .pipe(uglify())
+        .pipe(
+          rename({
+            suffix: ".min",
+          })
+        )
+        .pipe(sourcemaps.write("./"))
+        .pipe(dest(paths.scripts.destDir));
     };
   });
 
@@ -199,18 +240,13 @@ function jsConcat(done) {
 }
 
 function jsClean(done) {
-  const tasks = jsConfig.map((config) => {
-    return (done) => {
-      //   const files = [`${paths.scripts.tmpDir}/${config.name}.deps.js`, `${paths.scripts.tmpDir}/${config.name}.build.js`];
-      //   return del(files);
-      return del(paths.scripts.tmpDir);
-    };
-  });
+  del(paths.scripts.tmpDir);
+  done();
+}
 
-  return series(...tasks, (seriesDone) => {
-    seriesDone();
-    done();
-  })();
+function outputClean(done) {
+  del(paths.output);
+  done();
 }
 
 function browserSyncReload(done) {
@@ -224,6 +260,7 @@ function browserSyncServe(done) {
       baseDir: paths.reload,
     },
   });
+  done();
 }
 
 function watchSource() {
@@ -232,7 +269,9 @@ function watchSource() {
   watch(paths.html.srcDir, series(copyHTML, browserSyncReload));
 }
 
+exports.outputClean = series(outputClean);
+exports.copyAssets = parallel(copyHTML, copyImages);
 exports.styleBuild = series(styleBuild);
-exports.jsBuild = series(jsDeps, jsBuild, jsConcat);
-exports.default = series(exports.jsBuild, jsClean, styleBuild, copyHTML);
+exports.jsBuild = series(parallel(jsDeps, jsBuild), jsConcat, jsClean);
+exports.default = parallel(exports.jsBuild, styleBuild, exports.copyAssets);
 exports.watch = series(exports.default, browserSyncServe, watchSource);

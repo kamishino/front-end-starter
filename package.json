@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "clean": "gulp outputClean"
   },
   "keywords": [],
   "author": "Toan Huynh",
@@ -22,6 +23,9 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
+    "gulp-filter": "^7.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
@@ -31,6 +35,8 @@
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "postcss": "^8.3.11",
+    "postcss-preset-env": "^7.4.3",
+    "postcss-pxtorem": "^6.0.0",
     "sass": "^1.43.4"
   }
 }
