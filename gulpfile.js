@@ -5,6 +5,7 @@ const plumber = require("gulp-plumber");
 const filter = require("gulp-filter");
 const rename = require("gulp-rename");
 const newer = require("gulp-newer");
+const inject = require("gulp-inject");
 
 // Image
 const imagemin = require("gulp-imagemin");
@@ -29,29 +30,27 @@ const browserSync = require("browser-sync").create();
 
 // Paths
 const paths = {
-  input: "./src/",
-  output: "./dist/",
+  input: "./src",
+  output: "./dist",
   html: {
     srcDir: "./src/**/*.html",
-    destDir: "./dist/",
+    destDir: "./dist",
   },
   images: {
     srcDir: "./src/images/**/*.{png,jpg,jpeg,gif,ico,svg}",
-    destDir: "./dist/images/",
+    destDir: "./dist/images",
   },
   styles: {
     srcDir: "./src/scss/**/*.{scss,sass}",
-    destDir: "./dist/css/",
+    destDir: "./dist/css",
   },
   scripts: {
     srcDir: "./src/js",
     tmpDir: "./tmp",
     destDir: "./dist/js",
   },
-  reload: "./dist/",
+  reload: "./dist",
 };
-
-const jsConfig = require("./src/js/config");
 
 // Template for banner to add to file headers
 const banner = {
@@ -76,8 +75,12 @@ const banner = {
     " */\n",
 };
 
-function copyHTML() {
-  return src(paths.html.srcDir).pipe(dest(paths.html.destDir));
+function htmlBuild() {
+  return src(paths.html.srcDir)
+    .pipe(dest(paths.html.destDir))
+    .pipe(filter("**/*.html"))
+    .pipe(inject(src(["./dist/js/*.min.js", "./dist/css/*.min.css"], { read: false })))
+    .pipe(dest(paths.html.destDir));
 }
 
 function copyImages() {
@@ -147,6 +150,9 @@ function styleBuild() {
     .pipe(sourcemaps.write("./"))
     .pipe(dest(paths.styles.destDir));
 }
+
+// JS Config
+const jsConfig = require("./src/js/config");
 
 function jsDeps(done) {
   const tasks = jsConfig.map((config) => {
@@ -266,12 +272,16 @@ function browserSyncServe(done) {
 function watchSource() {
   watch(paths.scripts.srcDir, series(exports.jsBuild, browserSyncReload));
   watch(paths.styles.srcDir, series(styleBuild, browserSyncReload));
-  watch(paths.html.srcDir, series(copyHTML, browserSyncReload));
+  watch(paths.html.srcDir, series(htmlBuild, browserSyncReload));
 }
 
 exports.outputClean = series(outputClean);
-exports.copyAssets = parallel(copyHTML, copyImages);
+exports.copyAssets = parallel(copyImages);
+
+exports.htmlBuild = series(htmlBuild);
 exports.styleBuild = series(styleBuild);
 exports.jsBuild = series(parallel(jsDeps, jsBuild), jsConcat, jsClean);
-exports.default = parallel(exports.jsBuild, styleBuild, exports.copyAssets);
+exports.mainBuild = parallel(exports.copyAssets, exports.jsBuild, styleBuild);
+
+exports.default = series(exports.mainBuild, htmlBuild);
 exports.watch = series(exports.default, browserSyncServe, watchSource);
