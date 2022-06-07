@@ -30,7 +30,9 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
+      template: paths.src + "/index.html",
       filename: "index.html",
+      inject: true,
     }),
   ],
 
@@ -39,11 +41,14 @@ module.exports = {
       // JavaScript: Use Babel to transpile JavaScript files
       { test: /\.js$/, use: ["babel-loader"] },
 
+      // HTML: Reload the HTML files
+      { test: /\.html$/i, use: ["html-loader"] },
+
       // Images: Copy image files to build folder
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: "asset/resource" },
 
       // Fonts and SVGs: Inline files
-      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: "asset/inline" },
+      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/i, type: "asset/inline" },
     ],
   },
 
