@@ -13,6 +13,7 @@ module.exports = merge(common, {
     publicPath: "/",
     filename: "js/[name].[contenthash].bundle.js",
   },
+
   module: {
     rules: [
       {
@@ -33,12 +34,14 @@ module.exports = merge(common, {
       },
     ],
   },
+
   plugins: [
     new MiniCssExtractPlugin({
       filename: "styles/[name].[contenthash].css",
       chunkFilename: "[id].css",
     }),
   ],
+
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), "..."],
@@ -46,6 +49,7 @@ module.exports = merge(common, {
       name: "runtime",
     },
   },
+
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
