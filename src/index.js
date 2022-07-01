@@ -1,4 +1,7 @@
-// Import of JavaScript modudes
+// Import of vendors Styles & Javascript
 
-// Import of styles
-import "@/styles/main.scss";
+// Import of Styles
+import "@style/main.scss";
+
+// Import of JavaScript modudes
+import "@script/main.js";
