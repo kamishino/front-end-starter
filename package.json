@@ -57,5 +57,11 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.2",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "aos": "^2.3.4",
+    "axios": "^0.27.2",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21"
   }
 }

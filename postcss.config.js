@@ -29,7 +29,13 @@ module.exports = {
       exclude: "/node_modules/i",
     }),
     require("postcss-preset-env")({
-      browsers: ["> 1%", "last 2 versions", "IE 11"],
+      browsers: [
+        "> 0.5%",
+        "last 2 versions",
+        "Firefox ESR",
+        "not dead",
+        "IE 11",
+      ],
     }),
   ],
 };
