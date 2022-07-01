@@ -9,4 +9,7 @@ module.exports = {
 
   // Static files that get copied to build folder
   public: path.resolve(__dirname, "../public"),
+
+  // Pug files collection
+  pug: path.resolve(__dirname, "../src/pages"),
 };

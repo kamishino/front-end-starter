@@ -8,7 +8,9 @@ module.exports = merge(common, {
   devtool: "inline-source-map",
   devServer: {
     static: paths.build,
-    watchFiles: paths.src + "/*.html",
+    watchFiles: {
+      paths: [`${paths.src}/*.html`, `${paths.pug}/*.pug`],
+    },
     historyApiFallback: true,
     open: true,
     hot: true,
