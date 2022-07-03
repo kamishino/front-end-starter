@@ -1,0 +1,29 @@
+// XXL Viewport
+@include breakpoint(max, map.get($breakpoints, xxl) - 1px) {
+  // Style here
+}
+
+// XL Viewport
+@include breakpoint(max, map.get($breakpoints, xl) - 1px) {
+  // Style here
+}
+
+// LG Viewport
+@include breakpoint(max, map.get($breakpoints, lg) - 1px) {
+  // Style here
+}
+
+// MD Viewport
+@include breakpoint(max, map.get($breakpoints, md) - 1px) {
+  // Style here
+}
+
+// SM Viewport
+@include breakpoint(max, map.get($breakpoints, sm) - 1px) {
+  // Style here
+}
+
+// XS Viewport
+@include breakpoint(max, map.get($breakpoints, xs) - 1px) {
+  // Style here
+}

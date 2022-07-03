@@ -1,0 +1,18 @@
+// Color Scheme
+$color-primary: #0f75bc;
+$color-secondary: #25aae1;
+$color-accent: #13a89e;
+
+// Common colors
+$color-text: #444;
+$color-bg: #f1f1f1;
+$color-border: #ddd;
+
+// Links
+$color-link-default: $color-accent;
+$color-link-visited: $color-link-default;
+$color-link-hover: darken($color-link-default, 20%);
+$color-link-active: darken($color-link-default, 20%);
+
+// <hr> border color
+$hr-color: lighten(#000, 70%);

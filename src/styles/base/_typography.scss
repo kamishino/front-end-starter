@@ -1,0 +1,169 @@
+html {
+  font-size: ms(0);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: $font-family-base;
+  line-height: $leading-base;
+  color: $color-text;
+
+  // Add ligatures
+  font-feature-settings: "liga", "dlig", "hist";
+  font-variant-ligatures: common-ligatures discretionary-ligatures historical-ligatures;
+}
+
+//* Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  margin-top: 0;
+  margin-bottom: $baseline;
+
+  font-family: $font-family-headings;
+  font-weight: $font-weight-headings;
+  line-height: $line-height-headings;
+  text-rendering: optimizeLegibility;
+
+  small {
+    font-weight: normal;
+  }
+}
+
+h1,
+.h1 {
+  font-size: ms(5);
+  margin-bottom: $baseline * 2;
+}
+
+h2,
+.h2 {
+  font-size: ms(4);
+}
+
+h3,
+.h3 {
+  font-size: ms(3);
+}
+
+h4,
+.h4 {
+  font-size: ms(2);
+}
+
+h5,
+.h5 {
+  font-size: ms(1);
+  margin-bottom: 0;
+}
+
+h6,
+.h6 {
+  font-size: ms(0);
+  margin-bottom: 0;
+}
+
+* + h1,
+* + .h1,
+* + h2,
+* + .h2,
+* + h3,
+* + .h3,
+* + h4,
+* + .h4 {
+  margin-top: $baseline;
+}
+
+//* Paragraphs
+p {
+  margin-top: 0;
+  margin-bottom: $baseline;
+
+  font-size: ms(0);
+  line-height: $baseline;
+}
+
+small {
+  font-size: 80%;
+}
+
+//* Utilities
+// Emphasis
+strong,
+b {
+  font-weight: $font-weight-bold;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+// Abbreviations and acronyms
+abbr[title] {
+  border-bottom: 1px dotted #ddd;
+  cursor: help;
+}
+
+// Quotes
+q,
+blockquote {
+  &::before,
+  &::after {
+    content: "";
+  }
+}
+
+cite {
+  font-style: normal;
+}
+
+// Addresses styling not present in S5, Chrome
+dfn {
+  font-style: italic;
+}
+
+// Addresses styling not present in IE6/7/8/9
+mark {
+  background: yellow;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+// Prevents sub and sup affecting line-height in all browsers
+// gist.github.com/413930
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+samp {
+  font-family: $font-family-mono;
+}
+
+hr {
+  margin: ($baseline) 0;
+  border: 0;
+  height: 1px;
+  background-color: $hr-color;
+}
+
+// https://justmarkup.com/log/2015/07/dealing-with-long-words-in-css/
+.hyphenate {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
