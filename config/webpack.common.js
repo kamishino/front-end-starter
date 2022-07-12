@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackPugPlugin = require("html-webpack-pug-plugin");
 
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { extendDefaultPlugins } = require("svgo");
 
 const paths = require("./paths");
 const fs = require("fs");
@@ -122,18 +121,29 @@ module.exports = {
               [
                 "svgo",
                 {
-                  plugins: extendDefaultPlugins([
+                  plugins: [
                     {
-                      name: "removeViewBox",
-                      active: false,
-                    },
-                    {
-                      name: "addAttributesToSVGElement",
+                      name: "preset-default",
                       params: {
-                        attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
+                        overrides: {
+                          cleanupAttrs: true,
+                          removeDoctype: true,
+                          removeXMLProcInst: true,
+                          removeComments: true,
+                          removeMetadata: true,
+                          removeTitle: true,
+                          removeDesc: true,
+                          removeUselessDefs: true,
+                          removeEditorsNSData: true,
+                          removeEmptyAttrs: true,
+                          removeHiddenElems: true,
+                          removeEmptyText: true,
+                          removeEmptyContainers: true,
+                          removeViewBox: false,
+                        },
                       },
                     },
-                  ]),
+                  ],
                 },
               ],
             ],
