@@ -119,6 +119,23 @@ module.exports = {
               ["gifsicle", { interlaced: true }],
               ["jpegtran", { progressive: true }],
               ["optipng", { optimiztionLevel: 5 }],
+              [
+                "svgo",
+                {
+                  plugins: extendDefaultPlugins([
+                    {
+                      name: "removeViewBox",
+                      active: false,
+                    },
+                    {
+                      name: "addAttributesToSVGElement",
+                      params: {
+                        attributes: [{ xmlns: "http://www.w3.org/2000/svg" }],
+                      },
+                    },
+                  ]),
+                },
+              ],
             ],
           },
         },
