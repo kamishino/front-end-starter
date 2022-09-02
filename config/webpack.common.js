@@ -68,20 +68,7 @@ module.exports = {
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  useBuiltIns: "entry",
-                  corejs: "3",
-                },
-              ],
-            ],
-          },
-        },
+        use: ["babel-loader"],
       },
 
       // Pug: Render the Pug files to HTML files
