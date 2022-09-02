@@ -56,6 +56,10 @@ export const isEmpty = (value) => {
   return value === "";
 };
 
+export const isSameOrigin = (origin, destination) => {
+  origin.protopol === destination.protopol && origin.host === destination.host;
+};
+
 export const isTouchSupported = () =>
   "ontouchstart" in window ||
   (window.DocumentTouch && document instanceof window.DocumentTouch);
