@@ -32,7 +32,7 @@ module.exports = {
   output: {
     path: paths.build,
     filename: "[name].bundle.js",
-    publicPath: "/",
+    publicPath: "./",
   },
 
   plugins: [
@@ -46,12 +46,13 @@ module.exports = {
           globOptions: {
             ignore: ["**/assets/**"],
           },
+          noErrorOnMissing: true,
         },
         {
           from: paths.assets,
           to: "assets",
           globOptions: {
-            ignore: ["*.DS_Store"],
+            ignore: ["*.DS_Store", "*.Thumbs.db", "*.gitkeep"],
           },
           noErrorOnMissing: true,
         },
@@ -122,34 +123,6 @@ module.exports = {
               ["gifsicle", { interlaced: true }],
               ["jpegtran", { progressive: true }],
               ["optipng", { optimiztionLevel: 5 }],
-              [
-                "svgo",
-                {
-                  plugins: [
-                    {
-                      name: "preset-default",
-                      params: {
-                        overrides: {
-                          cleanupAttrs: true,
-                          removeDoctype: true,
-                          removeXMLProcInst: true,
-                          removeComments: true,
-                          removeMetadata: true,
-                          removeTitle: true,
-                          removeDesc: true,
-                          removeUselessDefs: true,
-                          removeEditorsNSData: true,
-                          removeEmptyAttrs: true,
-                          removeHiddenElems: true,
-                          removeEmptyText: true,
-                          removeEmptyContainers: true,
-                          removeViewBox: false,
-                        },
-                      },
-                    },
-                  ],
-                },
-              ],
             ],
           },
         },
