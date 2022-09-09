@@ -1,6 +1,6 @@
 {
   "name": "front-end-starter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -51,7 +51,6 @@
     "posthtml-loader": "^2.0.1",
     "pug": "^3.0.2",
     "pug-html-loader": "^1.1.5",
-    "pug-loader": "^2.4.0",
     "raw-loader": "^4.0.2",
     "sass": "^1.54.8",
     "sass-loader": "^13.0.0",
