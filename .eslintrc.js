@@ -1,0 +1,15 @@
+module.exports = {
+  env: {
+    node: true,
+    browser: true,
+    commonjs: true,
+    amd: true,
+    es2021: true,
+  },
+  extends: ["eslint:recommended", "prettier"],
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  rules: {},
+};

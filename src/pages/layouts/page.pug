@@ -1,0 +1,17 @@
+include ../modules/head/head
+
+doctype html
+html
+  head
+    -
+      let page = {
+        title: "",
+        class: [],
+      }
+
+    block head
+    
+    +head({ title: page.title })
+
+  body
+    block page

@@ -1,0 +1,12 @@
+mixin block(key, marker=false)
+  - global.my_blocks = global.my_blocks || {}
+  if marker
+    if global.my_blocks[key]
+      - let temp = {}
+      - temp[key] = global.my_blocks[key]
+      - global.my_blocks[key] = null
+      - temp[key]()
+    else
+      block
+  else
+    - global.my_blocks[key] = this.block
