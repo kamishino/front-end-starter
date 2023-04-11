@@ -19,7 +19,7 @@ To use this template, you need to have Node.js and npm installed on your machine
 npm install
 
 # Start development server
-npm start
+npm run dev
 
 # Build production bundle
 npm run build
