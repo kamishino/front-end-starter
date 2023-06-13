@@ -4,27 +4,27 @@
 }
 
 // SM Viewport
-@include breakpoint("between", map.get($breakpoints, xs) map.get($breakpoints, sm)) {
+@include breakpoint("between", map.get($breakpoints, xs) map.get($breakpoints, sm) - 1px) {
   // Style here
 }
 
 // MD Viewport
-@include breakpoint("between", map.get($breakpoints, sm) map.get($breakpoints, md)) {
+@include breakpoint("between", map.get($breakpoints, sm) map.get($breakpoints, md) - 1px) {
   // Style here
 }
 
 // LG Viewport
-@include breakpoint("between", map.get($breakpoints, md) map.get($breakpoints, lg)) {
+@include breakpoint("between", map.get($breakpoints, md) map.get($breakpoints, lg) - 1px) {
   // Style here
 }
 
 // XL Viewport
-@include breakpoint("between", map.get($breakpoints, lg) map.get($breakpoints, xl)) {
+@include breakpoint("between", map.get($breakpoints, lg) map.get($breakpoints, xl) - 1px) {
   // Style here
 }
 
 // XXL Viewport
-@include breakpoint("between", map.get($breakpoints, xl) map.get($breakpoints, xxl)) {
+@include breakpoint("between", map.get($breakpoints, xl) map.get($breakpoints, xxl) - 1px) {
   // Style here
 }
 
