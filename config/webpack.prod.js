@@ -10,14 +10,14 @@ module.exports = merge(common, {
   devtool: false,
   output: {
     path: paths.build,
-    publicPath: "/",
-    filename: "js/[name].[contenthash].bundle.js",
+    publicPath: "./",
+    filename: "js/[name].bundle.js",
   },
 
   module: {
     rules: [
       {
-        test: /\.(sass|scss|css)$/,
+        test: /\.(sass|scss|css)$/i,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -37,14 +37,20 @@ module.exports = merge(common, {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "styles/[name].[contenthash].css",
+      filename: "styles/[name].min.css",
       chunkFilename: "[id].css",
     }),
   ],
 
   optimization: {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin(), "..."],
+    minimizer: [
+      "...",
+      new CssMinimizerPlugin({
+        parallel: true,
+      }), 
+      
+    ],
     runtimeChunk: {
       name: "runtime",
     },

@@ -67,14 +67,14 @@ module.exports = {
     rules: [
       // JavaScript: Use Babel to transpile JavaScript files
       {
-        test: /\.m?js$/,
+        test: /\.m?js$/i,
         exclude: /(node_modules|bower_components)/,
         use: ["babel-loader"],
       },
 
       // Pug: Render the Pug files to HTML files
       {
-        test: /\.pug$/,
+        test: /\.pug$/i,
         use: [
           "raw-loader",
           {
@@ -91,7 +91,7 @@ module.exports = {
 
       // HTML: Reload the HTML files
       {
-        test: /\.html$/,
+        test: /\.html$/i,
         use: [
           {
             loader: "html-loader",
