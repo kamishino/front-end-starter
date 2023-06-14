@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: [require.resolve("@prettier/plugin-pug")],
+  plugins: [require.resolve("@prettier/plugin-pug"), require.resolve("prettier-plugin-css-order")],
 
   // Prettier User Options
   trailingComma: "es5",
@@ -10,4 +10,7 @@ module.exports = {
   singleQuote: false,
 
   // Prettier Pug Options
-};
+
+  // Perttier CSS Order Properties
+  order: "",
+}
