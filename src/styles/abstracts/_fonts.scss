@@ -4,13 +4,35 @@
 //* Import Webfonts
 // @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
 
+//* Local Webfonts
+// $local-font-family: <string>;
+// $local-font-style: <string>;
+// $local-font-weight: <number>;
+// $local-file-path: <string>;
+// $local-file-formats: <string>|<list>;
+
+// @include font-face($local-font-family, $local-file-path);
+
 //* Font basic Settings
+//** Type Modular Scale
+$modularscale: (
+  base: $font-size-base-px,
+  ratio: $major-third,
+);
+
 //** Fallback font stacks
 $font-family-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
   sans-serif;
 $font-family-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-serif: Georgia, "Times New Roman", Times, serif;
 $font-family-mono: Menlo, Monaco, "Courier New", monospace;
+
+//*** Main font stacks
+$project-main-font: $font-family-system;
+$project-sub-font: $font-family-sans;
+
+$font-family-base: $project-main-font;
+$font-family-alt: $project-sub-font;
 
 //** Font Size
 $font-size-base: 16;
@@ -20,21 +42,8 @@ $leading-base: 1.7;
 $line-height-base: round($font-size-base * $leading-base);
 $baseline: $line-height-base * 1px;
 
-//** Type Modular Scale
-$modularscale: (
-  base: $font-size-base-px,
-  ratio: $major-third,
-);
-
-//*** Main font stacks
-$project-main-font: $font-family-system;
-$project-sub-font: $font-family-sans;
-
-$font-family-base: $project-main-font;
-$font-family-alt: $project-sub-font;
-
 //*** Headings
-$font-family-heading: $font-family-alt;
+$font-family-heading: $font-family-base;
 $font-weight-heading: 700;
 $line-height-heading: 1.3;
 
