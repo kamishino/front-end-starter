@@ -44,14 +44,9 @@ export const isEmpty = (value) => {
   if (isObject(value)) {
     const { length } = Object.getOwnPropertyNames(value);
 
-    if (
-      length === 0 ||
+    return !!(length === 0 ||
       (length === 1 && isArray(value)) ||
-      (length === 2 && isArguments(value))
-    ) {
-      return true;
-    }
-    return false;
+      (length === 2 && isArguments(value)));
   }
   return value === "";
 };
