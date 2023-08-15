@@ -1,20 +1,22 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackPugPlugin = require("html-webpack-pug-plugin");
+const webpack = require("webpack")
 
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackPugPlugin = require("html-webpack-pug-plugin")
 
-const paths = require("./paths");
-const fs = require("fs");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
+
+const paths = require("./paths")
+const fs = require("fs")
 
 // Read all the pug files
-let pugTemplates = [];
-let pugFiles = fs.readdirSync(paths.pug);
+let pugTemplates = []
+let pugFiles = fs.readdirSync(paths.pug)
 
 pugFiles.forEach((pugFile) => {
-  if (pugFile.match(/\.pug$/)) {
-    let pugFileName = pugFile.substring(0, pugFile.length - 4);
+  if (RegExp(/\.pug$/).exec(pugFile)) {
+    let pugFileName = pugFile.substring(0, pugFile.length - 4)
     pugTemplates.push(
       new HtmlWebpackPlugin({
         template: `${paths.pug}/${pugFileName}.pug`,
@@ -22,9 +24,9 @@ pugFiles.forEach((pugFile) => {
         inject: true,
         minify: false,
       })
-    );
+    )
   }
-});
+})
 
 module.exports = {
   entry: [paths.src + "/index.js"],
@@ -61,6 +63,14 @@ module.exports = {
 
     ...pugTemplates,
     new HtmlWebpackPugPlugin(),
+
+    // Global access for the jQuery library
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery",
+      "window.$": "jquery",
+    }),
   ],
 
   module: {
@@ -141,4 +151,4 @@ module.exports = {
       "@public": paths.public,
     },
   },
-};
+}
