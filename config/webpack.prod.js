@@ -1,9 +1,9 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 
-const { merge } = require("webpack-merge");
-const paths = require("./paths");
-const common = require("./webpack.common");
+const { merge } = require("webpack-merge")
+const paths = require("./paths")
+const common = require("./webpack.common")
 
 module.exports = merge(common, {
   mode: "production",
@@ -48,11 +48,17 @@ module.exports = merge(common, {
       "...",
       new CssMinimizerPlugin({
         parallel: true,
-      }), 
-      
+      }),
     ],
-    runtimeChunk: {
-      name: "runtime",
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
     },
   },
 
@@ -61,4 +67,4 @@ module.exports = merge(common, {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
-});
+})
