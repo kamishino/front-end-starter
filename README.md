@@ -1,4 +1,4 @@
-# 🚀 Kami Front-end Starter ![License Badge](https://img.shields.io/badge/license-MIT-green)
+# 🚀 Front-end Starter ![License Badge](https://img.shields.io/badge/license-MIT-green)
 
 Kami Front-end Starter is a boilerplate for building modern web applications with jQuery and Bootstrap 5 Framework. It provides a ready-to-use template with pre-configured tools such as Webpack, Babel, ESLint, Prettier, etc.
 
