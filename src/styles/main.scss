@@ -2,7 +2,10 @@
 //* SASS Mixin Libraries
 //## Typography
 //@ Modular Scale - https://github.com/modularscale/modularscale-sass
-@import "~modularscale-sass/stylesheets/modularscale";
+// @import "~modularscale-sass/stylesheets/modularscale";
+
+//@ Mopdular Scale - Pre-Release v4.0.0.rc2
+@use "./libs/modularscale-sass/modularscale" as ms;
 
 //## Toolset
 //@ Gerillass - https://github.com/selfishprimate/gerillass

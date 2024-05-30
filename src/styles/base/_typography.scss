@@ -3,11 +3,11 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  font-size: ms(0);
+  font-size: ms.step(0);
 }
 
 body {
-  color: $color-text;
+  color: $color-neutral-700;
   line-height: $leading-base;
   font-family: $font-family-base;
 }
@@ -36,44 +36,44 @@ h6 {
 h1,
 .h1 {
   margin-bottom: $baseline * 2;
-  font-size: ms(5);
+  font-size: ms.step(5);
 }
 
 h2,
 .h2 {
-  font-size: ms(4);
+  font-size: ms.step(4);
 }
 
 h3,
 .h3 {
-  font-size: ms(3);
+  font-size: ms.step(3);
 }
 
 h4,
 .h4 {
-  font-size: ms(2);
+  font-size: ms.step(2);
 }
 
 h5,
 .h5 {
   margin-bottom: 0;
-  font-size: ms(1);
+  font-size: ms.step(1);
 }
 
 h6,
 .h6 {
   margin-bottom: 0;
-  font-size: ms(0);
+  font-size: ms.step(0);
 }
 
-* + h1,
-* + .h1,
-* + h2,
-* + .h2,
-* + h3,
-* + .h3,
-* + h4,
-* + .h4 {
+*+h1,
+*+.h1,
+*+h2,
+*+.h2,
+*+h3,
+*+.h3,
+*+h4,
+*+.h4 {
   margin-top: $baseline;
 }
 
@@ -82,7 +82,7 @@ p {
   margin-top: 0;
   margin-bottom: $baseline;
 
-  font-size: ms(0);
+  font-size: ms.step(0);
   line-height: $baseline;
 }
 
