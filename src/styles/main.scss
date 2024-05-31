@@ -15,6 +15,9 @@
 //@ Family.scss - https://lukyvj.github.io/family.scss/
 @import "~family.scss/source/src/family";
 
+//@ Normalize SCSS - https://www.npmjs.com/package/normalize-scss
+@import "~normalize-scss/sass/normalize";
+
 //* Core Styles
 @import "abstracts/all";
 @import "base/all";
